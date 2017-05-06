@@ -2,6 +2,6 @@
 
 General-purpose bot for the seal-dota league.
 
-##Features
+## Features
 
 * Github issue creation (requires whitelisting)
