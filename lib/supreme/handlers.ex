@@ -40,7 +40,7 @@ defmodule Supreme.Handlers do
   defp _execute_command({"issue", message}, payload, state) do
     split_me = Application.get_env(:supreme, :whitelist)
     whitelist = String.split(split_me, ",")
-    usertag = payload.data["author"]["username"] <> "#" <> payload.data["author"]["discriminator"]
+    usertag = "#{payload.data["author"]["username"]}##{payload.data["author"]["discriminator"]}"
     if Enum.member?(whitelist, usertag) do
       github_token = Application.get_env(:supreme, :github_token)
       org = Application.get_env(:supreme, :github_org)
@@ -54,6 +54,8 @@ defmodule Supreme.Handlers do
         _ -> "Error probably occurred, please check logs <@#{maintainer_id}>"
       end
       Channel.send_message(state[:rest_client], payload.data["channel_id"], %{content: content})
+    else
+      Channel.send_message(state[:rest_client], payload.data["channel_id"], %{content: "User not whitelisted"})
     end
   end
 end
